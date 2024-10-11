@@ -3,9 +3,9 @@ public class IntegerArrays {
     public static void swap(int[] A, int i, int j) {
         if (i < 0 || j < 0 || i >= A.length || j >= A.length)
             return;
-        int mom = A[i];
+        int k = A[i];
         A[i] = A[j];
-        A[j] = mom;
+        A[j] = k;
     }
 
     public static boolean sorted(int[] A) {
@@ -45,9 +45,20 @@ public class IntegerArrays {
         return max;
     }
 
+    private static int minPos(int[] A, int l, int r) {
+        if (l < 0 || r < 0 || l >= A.length || r >= A.length)
+            return -1;
+        int min = l;
+        for(int i = l + 1; i <= r; i++) {
+            if (A[i] < A[min])
+                min = i;
+        }
+        return min;
+    }
+
     public static void selectionSortMax(int[] A) {
         for (int i = 0; i < A.length; i++) {
-            int p = maxPos(A, i, A.length - 1);
+            int p = minPos(A, i, A.length - 1);
             swap(A, i, p);
         }
     }
