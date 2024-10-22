@@ -35,7 +35,7 @@ public class IntegerArrays {
     }
 
     public static int maxPos(int[] A, int l, int r) {
-        if (l < 0 || r < 0 || l >= A.length || r >= A.length)
+        if (l < 0 || r < 0 || r >= A.length || l > r)
             return -1;
         int max = l;
         for(int i = l + 1; i <= r; i++) {
@@ -45,20 +45,9 @@ public class IntegerArrays {
         return max;
     }
 
-    private static int minPos(int[] A, int l, int r) {
-        if (l < 0 || r < 0 || l >= A.length || r >= A.length)
-            return -1;
-        int min = l;
-        for(int i = l + 1; i <= r; i++) {
-            if (A[i] < A[min])
-                min = i;
-        }
-        return min;
-    }
-
     public static void selectionSortMax(int[] A) {
-        for (int i = 0; i < A.length; i++) {
-            int p = minPos(A, i, A.length - 1);
+        for (int i = A.length; i > 0; i--) {
+            int p = maxPos(A, 0, i);
             swap(A, i, p);
         }
     }

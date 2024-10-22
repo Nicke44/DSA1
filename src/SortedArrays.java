@@ -5,26 +5,26 @@ public class SortedArrays {
         if (A.length == 0)
             return -1;
         int maxFreq = 1;
-        int maxInd = 0;
-        int i = 0, j = 1;
+        int freq = 1;
+        int mostFreq = A[0];
 
-        while (i + j < A.length){
-            if (A[i] == A[i+j]){
-                j++;
+        for (int i = 1; i < A.length; i++){
+            if(A[i] == A[i - 1]){
+                freq++;
             } else {
-                if (j > maxFreq){
-                    maxFreq = j;
-                    maxInd = i;
+                if(freq > maxFreq){
+                    maxFreq = freq;
+                    mostFreq = A[i - 1];
                 }
-                i += j;
-                j = 1;
+                freq = 1;
             }
         }
 
-        if (j > maxFreq)
-            maxInd = i;
+        if (freq > maxFreq){
+            mostFreq = A[A.length - 1];
+        }
 
-        return A[maxInd];
+        return mostFreq;
     }
 
     public static int firstPosCeil(int x, int[] A) {
@@ -32,9 +32,19 @@ public class SortedArrays {
         if (A.length == 0 || A[A.length - 1] < x)
             return -1;
 
-        for(int i = 0; i < A.length; i++) {
-            if (A[i] >= x)
-                return i;
+        int l = 0;
+        int r = A.length - 1;
+
+        while (l <= r){
+            int m = l + (r - l) / 2;
+            if(A[m] >= x)
+                r = m - 1;
+            else
+                l = m + 1;
+        }
+
+        if(l < A.length && A[l] >= x){
+            return l;
         }
 
         return -1;
@@ -47,19 +57,32 @@ public class SortedArrays {
             return flp;
         }
 
-        int i = 0;
-
-        while (i < A.length) {
-            if(A[i] == x){
-                flp[0] = i;
-                int j = i;
-                while (j < A.length && A[j] == x){
-                    j++;
-                }
-                flp[1] = j - 1;
-                break;
+        int l = 0;
+        int r = A.length - 1;
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+            if (A[m] == x) {
+                flp[0] = m;
+                r = m - 1;
+            } else if (A[m] < x) {
+                l = m + 1;
+            } else {
+                r = m - 1;
             }
-            i++;
+        }
+
+        l = 0;
+        r = A.length - 1;
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+            if (A[m] == x) {
+                flp[1] = m;
+                l = m + 1;
+            } else if (A[m] < x) {
+                l = m + 1;
+            } else {
+                r = m - 1;
+            }
         }
 
         return flp;
@@ -68,17 +91,22 @@ public class SortedArrays {
     public static int leastNonnegMissing(int[] A) {
 
         if(A.length == 0) {
-            return -1;
+            return 0;
         }
 
-        int k = 0;
+        int l = 0;
+        int r = A.length - 1;
 
-        for(int i : A) {
-            if(i == k) k++;
-            else break;
+        while (l <= r){
+            int m = l + (r - l) / 2;
+            if(A[m] == m){
+                l = m + 1;
+            } else {
+                r = m - 1;
+            }
         }
 
-        return k;
+        return l;
     }
 
 }
