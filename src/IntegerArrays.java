@@ -46,7 +46,7 @@ public class IntegerArrays {
     }
 
     public static void selectionSortMax(int[] A) {
-        for (int i = A.length; i > 0; i--) {
+        for (int i = A.length - 1; i > 0; i--) {
             int p = maxPos(A, 0, i);
             swap(A, i, p);
         }
